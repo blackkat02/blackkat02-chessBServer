@@ -1,0 +1,77 @@
+version: '3.8'
+
+services:
+  # 1. СЕРВІС КЕШУВАННЯ (Redis)
+  # Не змінюємо: твій швидкісний кеш для активного стану гри (FEN, годинники).
+  redis:
+    image: redis:6.2.12-alpine
+    container_name: chess_redis
+    restart: always
+    # Не відкриваємо 6379, бо він доступний тільки внутрішньо для FastApi
+    # ports:
+    #   - "6379:6379"
+
+  # 2. СЕРВІС БЕКЕНДУ (FastAPI)
+  # Перейменовано з 'app' на 'backend_api' для більшої ясності.
+  backend_api:
+    build: 
+      context: ./backend_api
+      dockerfile: Dockerfile
+    container_name: chess_fastapi
+    restart: always
+    # Бекенд слухає на внутрішньому порту 8080.
+    ports:
+      - "8080:8080"
+    depends_on:
+      - redis
+      - postgres_db # Залишаємо для повної конфігурації, хоча зараз не використовуємо
+    volumes:
+      # ВИДАЛИ '.:/app'! Ти будуєш образ, а не розробляєш в контейнері. 
+      # Обмежся цим, щоб зробити білд чистим.
+      # Використання volumes для коду в продакшені уповільнює роботу.
+      - postgres_data:/app/storage # Залиш це, якщо потрібно для storage, але це не папка PostgreSQL
+    env_file:
+      - .env
+    # Тут у Uvicorn'а немає reload=True, це добре.
+
+  # 3. СЕРВІС ФРОНТЕНДУ (React + Nginx)
+  # Nginx буде обслуговувати React і проксіювати запити на backend_api
+  frontend_app:
+    build:
+      context: ./frontend_app # Припускаємо, що тут React-код та Dockerfile
+      dockerfile: Dockerfile
+    container_name: chess_react_nginx
+    restart: always
+    # Відкриваємо зовнішній порт 3000, який буде працювати з внутрішнім портом Nginx (80)
+    ports:
+      - "3000:80" 
+    depends_on:
+      - backend_api
+      
+  postgres_db:
+    image: postgres:14-alpine
+    container_name: chess_postgres
+    restart: always
+    environment:
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASS}
+      POSTGRES_DB: ${DB_NAME}
+    # ports:
+    #   - "5432:5432" # Закриваємо, якщо не потрібно ззовні
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
+
+  pgadmin:
+    image: dpage/pgadmin4
+    container_name: pgadmin_ui
+    restart: always
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@gmail.com
+      PGADMIN_DEFAULT_PASSWORD: admin
+    ports:
+      - "5050:80"
+    depends_on:
+      - postgres_db
+
+volumes:
+  postgres_data:

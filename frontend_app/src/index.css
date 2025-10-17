@@ -1,0 +1,29 @@
+body {
+  font-family: 'Inter', sans-serif;
+  line-height: 1.5; 
+  color: #121417;
+  margin: 0; 
+  padding: 0; 
+  box-sizing: border-box;
+}
+
+h1 {
+  font-weight: 600;
+  font-size: 48px;
+  line-height: 1.2;
+}
+
+input,
+textarea,
+button,
+select {
+  font-family: 'Inter', sans-serif;
+  font-weight: 500; 
+  color: #121417;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}

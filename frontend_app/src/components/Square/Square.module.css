@@ -1,0 +1,29 @@
+.square {
+  position: relative;
+  width: 12.5%;
+  height: 12.5%;
+  flex-shrink: 0;
+  box-sizing: border-box;
+  background: none;
+  border: none;
+  padding: 0;
+  margin: 0;
+  font: inherit; 
+  cursor: pointer;
+}
+
+.light {
+  background-color: #f0d9b5; 
+}
+
+.dark {
+  background-color: #b58863;
+}
+
+.square:focus {
+  outline: none;
+}
+
+.square-selected {
+  background-color: green;
+}

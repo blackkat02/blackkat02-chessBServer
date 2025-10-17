@@ -1,0 +1,50 @@
+.homePageWrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+}
+
+.buttonGroup {
+  margin-bottom: 20px;
+  display: flex;
+  gap: 10px;
+}
+
+/* .primaryButton {
+  background-color: #007bff;
+  color: white;
+  border-color: #007bff;
+}
+
+.secondaryButton {
+  background-color: #6c757d;
+  color: white;
+  border-color: #6c757d;
+} */
+
+.primary {
+  background-color: #007bff;
+  color: white;
+  border-color: #007bff;
+}
+
+.danger {
+  background-color: #dc3545; /* Використовуємо для кнопки скидання */
+  color: white;
+  border-color: #dc3545;
+}
+
+.homePageWrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+}
+
+.buttonGroup {
+  margin-top: 20px; /* Додаємо відступ зверху */
+  margin-bottom: 20px;
+  display: flex;
+  gap: 15px; /* Збільшуємо простір між кнопками */
+}
