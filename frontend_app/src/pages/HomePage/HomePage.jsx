@@ -4,7 +4,6 @@ import Clock from '../../components/Clock/Clock';
 import Button from '../../components/Button/Button';
 import styles from './HomePage.module.css';
 
-// === ІМПОРТУЄМО НАШ КАСТОМНИЙ ХУК ===
 import { useGameState } from '../../hooks/useGameState';
 
 const HomePage = () => {
@@ -18,7 +17,6 @@ const HomePage = () => {
     resetGameState
   } = useGameState(socketRef);
 
-  // Стан лише для UI (Керується локально)
   const [showSquareId, setShowSquareId] = useState(false);
 
   // Функція-заглушка для обробки закінчення часу
@@ -26,7 +24,6 @@ const HomePage = () => {
     console.log(`[GAME OVER] Час гравця ${color} вичерпано!`);
   }, []);
 
-  // === ЛОГІКА: Скидання гри ===
   const handleResetGame = useCallback(() => {
     resetGameState();
   }, [resetGameState]);
@@ -42,7 +39,7 @@ const HomePage = () => {
       <h1>Chess MVP (Controlled)</h1>
 
       <div style={{ display: 'flex', justifyContent: 'space-around', width: '100%', maxWidth: '600px' }}>
-        {/* Годинник Білих: звертаємося напряму до gameState */}
+        {/* Clock Білих: звертаємося напряму до gameState */}
         <Clock
           initialTime={gameState.whiteTime}
           color="w"
