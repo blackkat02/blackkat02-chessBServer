@@ -33,7 +33,6 @@ const HomePage = () => {
     setShowSquareId(prev => !prev);
   };
 
-
   return (
     <div className={styles.homePageWrapper}>
       <h1>Chess MVP (Controlled)</h1>
